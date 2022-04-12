@@ -22,7 +22,7 @@ function initMap(): void {
     document.getElementById("map") as HTMLElement,
     {
       center: pyrmont,
-      zoom: 17,
+      zoom: 15,
       mapId: "8d193001f940fde3",
     } as google.maps.MapOptions
   );
@@ -174,12 +174,11 @@ function addPlaces(
       }); //end mouse over
 
       // infowindow.addListener("cli",function () {
-      //   infowindow.close();
-      // })
-
-      // marker.addListener("mouseout", function () {
+        // })
         
-      // });
+        marker.addListener("mouseout", function () {
+          infowindow.close();        
+      });
 
       // google.maps.event.addListener(marker, "click", () => {
 
