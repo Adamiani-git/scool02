@@ -2,21 +2,22 @@ import "./style.css";
 
 
 
-
-
 function initMap(): void {
 
   // navigator.geolocation.getCurrentPosition(function (position) {
   //   const lat = position.coords.latitude
   //   const long = position.coords.longitude
   // })
-  console.log(navigator.geolocation.getCurrentPosition(function (p) {
-    console.log(p)
-    
-  }));
+  
+  
+  navigator.geolocation.getCurrentPosition((position) => { 
+    console.log("Got position", position.coords);
+    const lat = position.coords.latitude; 
+    const lon = position.coords.longitude;
+ 
+  const pyrmont = { lat: lat, lng: lon };
   
   // Create the map.
-  const pyrmont = { lat: 41, lng: 44.7067874 };
   const map = new google.maps.Map(
     document.getElementById("map") as HTMLElement,
     {
@@ -41,7 +42,7 @@ function initMap(): void {
 
   // Perform a nearby search.
   service.nearbySearch(
-    { location: pyrmont, radius: 500, type: "school" },
+    { location: pyrmont, radius: 1500, type: "school" },
     (
       results: google.maps.places.PlaceResult[] | null,
       status: google.maps.places.PlacesServiceStatus,
@@ -60,6 +61,7 @@ function initMap(): void {
       }
     }
   );
+});
 }
 
 function addPlaces(
