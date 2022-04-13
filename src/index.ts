@@ -1,67 +1,71 @@
 import "./style.css";
 
-
-
 function initMap(): void {
-
-  // navigator.geolocation.getCurrentPosition(function (position) {
-  //   const lat = position.coords.latitude
-  //   const long = position.coords.longitude
-  // })
-  
-  
-  navigator.geolocation.getCurrentPosition((position) => { 
+  navigator.geolocation.getCurrentPosition((position) => {
     console.log("Got position", position.coords);
-    const lat = position.coords.latitude; 
+    const lat = position.coords.latitude;
     const lon = position.coords.longitude;
- 
-  const pyrmont = { lat: lat, lng: lon };
-  
-  // Create the map.
-  const map = new google.maps.Map(
-    document.getElementById("map") as HTMLElement,
-    {
-      center: pyrmont,
-      zoom: 15,
-      mapId: "8d193001f940fde3",
-    } as google.maps.MapOptions
-  );
 
-  // Create the places service.
-  const service = new google.maps.places.PlacesService(map);
-  let getNextPage: () => void | false;
-  const moreButton = document.getElementById("more") as HTMLButtonElement;
+    const pyrmont = { lat: lat, lng: lon };
 
-  moreButton.onclick = function () {
-    moreButton.disabled = true;
+    // Create the map.
+    const map = new google.maps.Map(
+      document.getElementById("map") as HTMLElement,
+      {
+        center: pyrmont,
+        zoom: 15,
+        mapId: "8d193001f940fde3",
+      } as google.maps.MapOptions
+    );
 
-    if (getNextPage) {
-      getNextPage();
-    }
-  };
+    let rdus = 1500;
+    const inpt = document.getElementById("inpt");
+    inpt?.addEventListener("change", (e: any) => {
+      rdus = e.target.value
+     
 
-  // Perform a nearby search.
-  service.nearbySearch(
-    { location: pyrmont, radius: 1500, type: "school" },
-    (
-      results: google.maps.places.PlaceResult[] | null,
-      status: google.maps.places.PlacesServiceStatus,
-      pagination: google.maps.places.PlaceSearchPagination | null
-    ) => {
-      if (status !== "OK" || !results) return;
 
-      addPlaces(results, map);
-      moreButton.disabled = !pagination || !pagination.hasNextPage;
 
-      if (pagination && pagination.hasNextPage) {
-        getNextPage = () => {
-          // Note: nextPage will call the same handler function as the initial call
-          pagination.nextPage();
-        };
+    // Create the places service.
+    const service = new google.maps.places.PlacesService(map);
+    let getNextPage: () => void | false;
+    const moreButton = document.getElementById("more") as HTMLButtonElement;
+
+    moreButton.onclick = function () {
+      moreButton.disabled = true;
+
+      if (getNextPage) {
+        getNextPage();
       }
-    }
-  );
-});
+    };
+
+    
+   
+    // Perform a nearby search.
+    service.nearbySearch(
+      { location: pyrmont, radius: rdus, type: "school" },
+      (
+        results: google.maps.places.PlaceResult[] | null,
+        status: google.maps.places.PlacesServiceStatus,
+        pagination: google.maps.places.PlaceSearchPagination | null
+        ) => {
+          if (status !== "OK" || !results) return;
+          
+         
+          addPlaces(results, map);
+          moreButton.disabled = !pagination || !pagination.hasNextPage;
+
+          if (pagination && pagination.hasNextPage) {
+            getNextPage = () => {
+              // Note: nextPage will call the same handler function as the initial call
+              pagination.nextPage();
+            };
+          }
+        }
+      );
+    })
+    
+  });
 }
 
 function addPlaces(
@@ -69,6 +73,7 @@ function addPlaces(
   map: google.maps.Map
 ) {
   const placesList = document.getElementById("places") as HTMLElement;
+
 
   for (const place of places) {
     if (place.geometry && place.geometry.location) {
@@ -80,8 +85,6 @@ function addPlaces(
         scaledSize: new google.maps.Size(25, 25),
       };
 
-    
-
       const contentString = `${place.name}`;
 
       const infowindow = new google.maps.InfoWindow({
@@ -90,7 +93,7 @@ function addPlaces(
       });
 
       // console.log(place);
-      console.log(place);
+      console.log("place: "+place);
 
       const service = new google.maps.places.PlacesService(map);
 
@@ -111,7 +114,7 @@ function addPlaces(
       //   });
       // });
 
-      marker.addListener("mouseover", function () {
+      marker.addListener("click", function () {
         const request = {
           placeId: `${place.place_id}`,
           fields: [
@@ -136,14 +139,14 @@ function addPlaces(
             //   map,
             //   position: place.geometry.location,
             // });
-            
-            infowindow.open({
-              map, 
-              anchor:marker,
-              shouldFocus: true,
-              });
 
-            let imgCont='';
+            infowindow.open({
+              map,
+              anchor: marker,
+              shouldFocus: true,
+            });
+
+            let imgCont = "";
 
             if (place.photos && place.photos.length > 0) {
               imgCont =
@@ -174,10 +177,10 @@ function addPlaces(
       }); //end mouse over
 
       // infowindow.addListener("cli",function () {
-        // })
-        
-        marker.addListener("mouseout", function () {
-          infowindow.close();        
+      // })
+
+      marker.addListener("mouseout", function () {
+        infowindow.close();
       });
 
       // google.maps.event.addListener(marker, "click", () => {
@@ -210,7 +213,71 @@ function addPlaces(
 
       li.addEventListener("click", () => {
         map.setCenter(place.geometry!.location!);
+        const request = {
+          placeId: `${place.place_id}`,
+          fields: [
+            "name",
+            "formatted_address",
+            "place_id",
+            "geometry",
+            "photo",
+            "rating",
+            "user_ratings_total",
+          ],
+        };
+
+        service.getDetails(request, (place, status) => {
+          if (
+            status === google.maps.places.PlacesServiceStatus.OK &&
+            place &&
+            place.geometry &&
+            place.geometry.location
+          ) {
+            // const marker = new google.maps.Marker({
+            //   map,
+            //   position: place.geometry.location,
+            // });
+
+            infowindow.open({
+              map,
+              anchor: marker,
+              shouldFocus: true,
+            });
+
+            let imgCont = "";
+
+            if (place.photos && place.photos.length > 0) {
+              imgCont =
+                "<img src='" +
+                `${place.photos[0].getUrl({
+                  maxWidth: 200,
+                  maxHeight: 150,
+                })}` +
+                "'></img>";
+            }
+            infowindow.setContent(
+              "<div class='infowindow-container'>" +
+                imgCont +
+                "<div class='inner'><h4>" +
+                place.name +
+                "</h4><h5>" +
+                place.formatted_address +
+                "</h5>" +
+                place.international_phone_number +
+                "<p>Rating: " +
+                place.rating +
+                "</p><p>Total reviews: " +
+                place.user_ratings_total +
+                "</p></div></div>"
+            );
+          }
+        });
       });
+
+      li.addEventListener("mouseout", function () {
+        infowindow.close();
+      });
+      
     }
   }
 }
