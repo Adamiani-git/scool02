@@ -1,106 +1,97 @@
 import "./style.css";
-import DataS from './Data' 
+const { DataS } = require("./Data.json");
 
 function initMap(): void {
-
-  
-
   navigator.geolocation.getCurrentPosition((position) => {
-    
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
-    
+
     const pyrmont = { lat: lat, lng: lon };
-    
-    
+
     const searchBtn = document.getElementById("searchBtn") as HTMLButtonElement;
     const placelist = document.getElementById("places") as HTMLElement;
-    
-  console.log(DataS);
-  
 
     searchBtn.onclick = function (e) {
-      e.preventDefault()
-      
+      e.preventDefault();
+
       while (placelist.firstChild) {
         placelist.removeChild(placelist.firstChild);
-    }
-  }
-  const map = new google.maps.Map(
-    document.getElementById("map") as HTMLElement,
-    {
-      center: pyrmont,
-      zoom: 15,
-      mapId: "8d193001f940fde3",
-      backgroundColor:"white",
-    } as google.maps.MapOptions  
+      }
+    };
+    const map = new google.maps.Map(
+      document.getElementById("map") as HTMLElement,
+      {
+        center: pyrmont,
+        zoom: 15,
+        mapId: "8d193001f940fde3",
+        backgroundColor: "white",
+      } as google.maps.MapOptions
     );
     const curLocation = new google.maps.Marker({
       map,
       title: "აქ ვარ",
-          label: "აქ ვარ",
+      label: "აქ ვარ",
       position: pyrmont,
       animation: google.maps.Animation.BOUNCE,
     });
-    
+
     let rdus = 1500;
     const inpt = document.getElementById("inpt");
     inpt?.addEventListener("change", (e: any) => {
-      rdus = parseFloat(e.target.value)
-      
+      rdus = parseFloat(e.target.value);
+
       // Create the map.
-      
-      
+
       const map = new google.maps.Map(
         document.getElementById("map") as HTMLElement,
         {
           center: pyrmont,
           zoom: 15,
           mapId: "8d193001f940fde3",
-          backgroundColor:"white"
-        } as google.maps.MapOptions  
-        );
+          backgroundColor: "white",
+        } as google.maps.MapOptions
+      );
 
-        const curLocation = new google.maps.Marker({
-          map,
-          // icon: image,
-          title: "აქ ვარ",
-          label: "აქ ვარ",
-          position: pyrmont,
-          animation: google.maps.Animation.BOUNCE,
-        });
+      const curLocation = new google.maps.Marker({
+        map,
+        // icon: image,
+        title: "აქ ვარ",
+        label: "აქ ვარ",
+        position: pyrmont,
+        animation: google.maps.Animation.BOUNCE,
+      });
 
+      // Create the places service.
+      const service = new google.maps.places.PlacesService(map);
 
-    // Create the places service.
-    const service = new google.maps.places.PlacesService(map);
+      let getNextPage: () => void | false;
+      const moreButton = document.getElementById("more") as HTMLButtonElement;
 
-    let getNextPage: () => void | false;
-    const moreButton = document.getElementById("more") as HTMLButtonElement;
+      moreButton.onclick = function () {
+        moreButton.disabled = true;
 
-    moreButton.onclick = function () {
-      moreButton.disabled = true;
+        if (getNextPage) {
+          getNextPage();
+        }
+      };
 
-      if (getNextPage) {
-        getNextPage();
-      }
-    };
-
-    
-   
-    // Perform a nearby search.
-    service.nearbySearch(
-      { location: pyrmont, radius: rdus, type: "school", keyword:"საჯარო სკოლა", openNow:false},
-      (
-        results: google.maps.places.PlaceResult[] | null,
-        status: google.maps.places.PlacesServiceStatus,
-        pagination: google.maps.places.PlaceSearchPagination | null
+      // Perform a nearby search.
+      service.nearbySearch(
+        {
+          location: pyrmont,
+          radius: rdus,
+          type: "school",
+          keyword: "საჯარო სკოლა",
+          openNow: false,
+        },
+        (
+          results: google.maps.places.PlaceResult[] | null,
+          status: google.maps.places.PlacesServiceStatus,
+          pagination: google.maps.places.PlaceSearchPagination | null
         ) => {
-          console.log('res: '+rdus);
-          
           if (status !== "OK" || !results) return;
           // results= []
-    
-         
+
           addPlaces(results, map);
           moreButton.disabled = !pagination || !pagination.hasNextPage;
 
@@ -112,19 +103,15 @@ function initMap(): void {
           }
         }
       );
-    })
-    
+    });
   });
 }
-
-
 
 function addPlaces(
   places: google.maps.places.PlaceResult[],
   map: google.maps.Map
-  ) {
-    const placesList = document.getElementById("places") as HTMLElement;
-    
+) {
+  const placesList = document.getElementById("places") as HTMLElement;
 
   for (const place of places) {
     if (place.geometry && place.geometry.location) {
@@ -143,12 +130,8 @@ function addPlaces(
         maxWidth: 300,
       });
 
-
       const service = new google.maps.places.PlacesService(map);
 
-      
-      
-      
       const marker = new google.maps.Marker({
         map,
         icon: image,
@@ -156,8 +139,7 @@ function addPlaces(
         position: place.geometry.location,
         animation: google.maps.Animation.BOUNCE,
       });
-      
-      
+
       // marker.addListener("click", () => {
       //   infowindow.close();
       //   infowindow.open({
@@ -167,70 +149,70 @@ function addPlaces(
       //   });
       // });
 
-      marker.addListener("mouseover", function () {
-        const request = {
-          placeId: `${place.place_id}`,
-          language:'ge',
-          fields: [
-            "name",
-            "formatted_address",
-            "place_id",
-            "geometry",
-            "photo",
-            "rating",
-            "user_ratings_total",
-          ],
-        };
-        
+      // marker.addListener("mouseover", function () {
+      //   const request = {
+      //     placeId: `${place.place_id}`,
+      //     language: "ge",
+      //     fields: [
+      //       "name",
+      //       "formatted_address",
+      //       "place_id",
+      //       "geometry",
+      //       "photo",
+      //       "rating",
+      //       "user_ratings_total",
+      //     ],
+      //   };
 
-        service.getDetails(request, (place, status) => {
-          if (
-            status === google.maps.places.PlacesServiceStatus.OK &&
-            place &&
-            place.geometry &&
-            place.geometry.location
-          ) {
-            // const marker = new google.maps.Marker({
-            //   map,
-            //   position: place.geometry.location,
-            // });
+      //   service.getDetails(request, (place, status) => {
+      //     if (
+      //       status === google.maps.places.PlacesServiceStatus.OK &&
+      //       place &&
+      //       place.geometry &&
+      //       place.geometry.location
+      //     ) {
+      //       // const marker = new google.maps.Marker({
+      //       //   map,
+      //       //   position: place.geometry.location,
+      //       // });
 
-            infowindow.open({
-              map,
-              anchor: marker,
-              shouldFocus: true,
-              
-            });
+      //       infowindow.open({
+      //         map,
+      //         anchor: marker,
+      //         shouldFocus: true,
+      //       });
 
-            let imgCont = "";
+      //       let imgCont = "";
 
-            if (place.photos && place.photos.length > 0) {
-              imgCont =
-                "<img src='" +
-                `${place.photos[0].getUrl({
-                  maxWidth: 200,
-                  maxHeight: 150,
-                })}` +
-                "'></img>";
-            }
-            infowindow.setContent(
-              "<div class='infowindow-container'>" +
-                imgCont +
-                "<div class='inner'><h4>" +
-                place.name +
-                "</h4><h5>" +
-                place.formatted_address +
-                "</h5>" +
-                place.international_phone_number +
-                "<p>Rating: " +
-                place.rating +
-                "</p><p>Total reviews: " +
-                place.user_ratings_total +
-                "</p></div></div>"
-            );
-          }
-        });
-      }); //end mouse over
+      //       if (place.photos && place.photos.length > 0) {
+      //         imgCont =
+      //           "<img src='" +
+      //           `${place.photos[0].getUrl({
+      //             maxWidth: 200,
+      //             maxHeight: 150,
+      //           })}` +
+      //           "'></img>";
+      //       }
+
+      //       infowindow.setContent(
+      //         "<div class='infowindow-container'>" +
+      //           imgCont +
+      //           "<div class='inner'><h4>" +
+      //           place.name +
+      //           "</h4><h5>" +
+      //           place.formatted_address +
+      //           "</h5>" +
+      //           place.international_phone_number +
+      //           "<p>Rating: " +
+      //           place.rating +
+      //           "</p><p>Total reviews: " +
+      //           place.user_ratings_total +
+      //           "</p></div></div>"
+      //       );
+      //     }
+      //   });
+      // });
+      //end mouse over
 
       // infowindow.addListener("cli",function () {
       // })
@@ -241,7 +223,7 @@ function addPlaces(
 
       map.addListener("click", function () {
         infowindow.close();
-      })
+      });
 
       // google.maps.event.addListener(marker, "click", () => {
 
@@ -275,7 +257,6 @@ function addPlaces(
       }, 300);
 
       li.addEventListener("click", () => {
-     
         map.setCenter(place.geometry!.location!);
         const request = {
           placeId: `${place.place_id}`,
@@ -284,7 +265,7 @@ function addPlaces(
             "formatted_address",
             "place_id",
             "geometry",
-            "photo",
+            "photos",
             "rating",
             "user_ratings_total",
             "formatted_phone_number",
@@ -292,7 +273,7 @@ function addPlaces(
             "address_components",
             "types",
             "url",
-            "website"
+            "website",
           ],
         };
 
@@ -308,8 +289,6 @@ function addPlaces(
             //   position: place.geometry.location,
             // });
 
-
-
             infowindow.open({
               map,
               anchor: marker,
@@ -321,35 +300,61 @@ function addPlaces(
             if (place.photos && place.photos.length > 0) {
               imgCont =
                 "<img src='" +
-                `${place.photos[0].getUrl({
-                  maxWidth: 200,
-                  maxHeight: 150,
-                })}` +
+                place.photos[0].getUrl({
+                  maxWidth: 250,
+                  maxHeight: 250,
+                }) +
                 "'></img>";
             }
+
+            let localName;
+            let localAddress;
+            let localPhone;
+            let localMail;
+
+            const parseData = function () {
+              const nameInGoogle = place?.name?.match(/\d+/);
+
+              const localInfo = DataS.filter((d) =>
+                d.name.includes("№" + nameInGoogle + " ")
+              ).map((d) => d);
+
+              localName = localInfo[0].name;
+              localAddress = localInfo[0].address;
+              localPhone = localInfo[0].phone;
+              localMail = localInfo[0].mail;
+            };
+
             infowindow.setContent(
-              "<div class='infowindow-container'>" +
+              parseData() +
+                "<div class='infowindow-container'><div>" +
                 imgCont +
-                "<div class='inner'><h4>" +
-                place.name +
-                "</h4><hr/><h5>" +
-                place.adr_address +
-                "</h5><hr/><h5><i class='bi bi-telephone'></i> " +
-                place.formatted_phone_number  +
-                "</h5><a href='"+place.url+"' target='blank'><p>" +
+                "</div><div><h5  class='text-secondary'>" +
+                localName +
+                "</h5></div><hr/><h5 class='text-secondary'>" +
+                localAddress +
+                "</h5><hr/> <a href='tel:" +
+                localPhone +
+                "'><i class='bi bi-telephone text-dark'><span class='text-secondary fs-6'> " +
+                localPhone +
+                "</span></i></a>" +
+                "<div class='mt-3'><i class='bi bi-envelope-paper'><span  class='text-secondary fs-6'> <a href='mailto:" +
+                localMail +
+                "'>" +
+                localMail +
+                "</a></span></i><div class='mt-3'><span  class='text-secondary'><i class='bi bi-link-45deg'><a href='" +
                 place.url +
-                "</p></a><p>Total reviews: " +
-                place.user_ratings_total +
-                "</p></div></div>"
+                "' target='blank'>" +
+                place.url +
+                "</a></i></span></div></div></div>"
             );
           }
         });
       });
 
-      li.addEventListener("mouseout", function () {
-        infowindow.close();
-      });
-      
+      // li.addEventListener("mouseout", function () {
+      //   infowindow.close();
+      // });
     }
   }
 }

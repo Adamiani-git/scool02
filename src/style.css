@@ -5,10 +5,10 @@ body {
   padding: 0;
 }
 
-/* #container {
+#container {
    height: 100%; 
-  display: flex;
-} */
+  /* display: flex; */
+}
 
 #sidebar {
   /* flex-basis: 5rem;
@@ -26,11 +26,11 @@ body {
   height: 500px; 
 }
 
-/* #sidebar {
+ #sidebar {
   display: flex;
-  height: 100ivh;
-  flex-direction: column;
-} */
+flex-direction: column;
+height: 85vh;
+} 
 
 h2 {
   font-size: 1.5rem;
@@ -84,4 +84,7 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+a {
+  text-decoration: none;
 }
