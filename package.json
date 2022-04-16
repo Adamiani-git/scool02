@@ -1,19 +1,19 @@
 {
   "name": "place-search-pagination",
   "version": "1.0.0",
-  "description": "Sample for Google Maps Platform JavaScript",
+  "description": "იპოვე სკოლა",
   "keywords": [
     "google",
     "javascript",
     "maps",
     "samples"
   ],
-  "homepage": "https://github.com/googlemaps/js-samples#readme",
+  "homepage": "https://localhost",
   "bugs": {
     "url": "https://github.com/googlemaps/js-samples/issues"
   },
   "license": "Apache-2.0",
-  "author": "Justin Poehnelt <jpoehnelt@google.com>",
+  "author": "Adamiani",
   "scripts": {
     "build": "webpack --config ./webpack.config.js --mode production",
     "dev": "webpack serve --config  ./webpack.config.js --mode development",

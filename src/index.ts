@@ -1,6 +1,5 @@
 import "./style.css";
-import * as sss from "./Data"
-
+import DataS from './Data' 
 
 function initMap(): void {
 
@@ -17,6 +16,7 @@ function initMap(): void {
     const searchBtn = document.getElementById("searchBtn") as HTMLButtonElement;
     const placelist = document.getElementById("places") as HTMLElement;
     
+  console.log(DataS);
   
 
     searchBtn.onclick = function (e) {
@@ -140,7 +140,7 @@ function addPlaces(
 
       const infowindow = new google.maps.InfoWindow({
         content: contentString,
-        maxWidth: 250,
+        maxWidth: 300,
       });
 
 

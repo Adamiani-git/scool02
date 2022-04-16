@@ -1,4 +1,3 @@
-/* Optional: Makes the sample page fill the window. */
 html,
 body {
   height: 100%;
@@ -6,31 +5,32 @@ body {
   padding: 0;
 }
 
-#container {
-  height: 100%;
+/* #container {
+   height: 100%; 
   display: flex;
-}
+} */
 
 #sidebar {
-  flex-basis: 5rem;
+  /* flex-basis: 5rem;
   flex-grow: 1;
   padding: 1rem;
-  max-width: 30rem;
+  max-width: 30rem; */
   height: 100%;
   box-sizing: border-box;
   overflow: auto;
 }
 
 #map {
-  flex-basis: 0;
-  flex-grow: 4;
-  height: 100%;
+  /* flex-basis: 0;
+  flex-grow: 4;*/
+  height: 500px; 
 }
 
-#sidebar {
+/* #sidebar {
   display: flex;
+  height: 100ivh;
   flex-direction: column;
-}
+} */
 
 h2 {
   font-size: 1.5rem;
@@ -53,8 +53,7 @@ li {
   white-space: nowrap;
   overflow: hidden;
   /* font-size: 1.25rem; */
-  cursor: pointer;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  cursor: pointer
 }
 
 li:nth-child(odd) {
