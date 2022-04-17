@@ -276,6 +276,7 @@ function addPlaces(
             "url",
             "website",
             "reviews",
+            // "relative_time_description",
             // "profile_photo_url",
           ],
         };
@@ -330,6 +331,21 @@ function addPlaces(
 
             const reviewList = "<div id='reviewList'></div>";
 
+            const test = place.reviews
+              ?.filter(
+                (r) => r.text != "",
+                () => {}
+              )
+              .map(
+                (rev, i) =>
+                  "<div key='" +
+                  i +
+                  "'>" +
+                  `<div class="fs-6 text-secondary fw-bold">${rev.author_name}</div>` +
+                  `<div class="text-secondary px-1" style="font-size:14px; text-align:justify;">${rev.text}</div>` +
+                  "</div>"
+              );
+
             infowindow.setContent(
               parseData() +
                 "<div class='infowindow-container'><div style='margin-top:-15px'>" +
@@ -351,11 +367,9 @@ function addPlaces(
                 place.url +
                 "' target='blank'> " +
                 place.url?.substring(0, 28) +
-                "</a></span></i></div><hr/>" +
-                // place.reviews
-                //   ?.filter((r) => r.text != "")
-                //   .map((r) => reviewList) +
-                "</div></div>"
+                "</a></span></i></div><hr/></div>" +
+                test +
+                "</div>"
             );
           }
         });
