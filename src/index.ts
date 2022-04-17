@@ -275,6 +275,8 @@ function addPlaces(
             "types",
             "url",
             "website",
+            "reviews",
+            // "profile_photo_url",
           ],
         };
 
@@ -326,6 +328,8 @@ function addPlaces(
               localMail = localInfo[0].mail;
             };
 
+            const reviewList = "<div id='reviewList'></div>";
+
             infowindow.setContent(
               parseData() +
                 "<div class='infowindow-container'><div style='margin-top:-15px'>" +
@@ -347,7 +351,11 @@ function addPlaces(
                 place.url +
                 "' target='blank'> " +
                 place.url?.substring(0, 28) +
-                "</a></span></i></div><hr/></div></div>"
+                "</a></span></i></div><hr/>" +
+                // place.reviews
+                //   ?.filter((r) => r.text != "")
+                //   .map((r) => reviewList) +
+                "</div></div>"
             );
           }
         });
