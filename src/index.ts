@@ -336,12 +336,13 @@ function addPlaces(
                 (rev, i) =>
                   "<div key='" +
                   i +
-                  "'>" +
+                  "' class='border-bottom mb-2 pb-2'>" +
                   `<div class="fs-6 text-secondary fw-bold "><img class="me-2" style="width:32px; height:32px" src="${rev?.profile_photo_url}"/>${rev.author_name}</div>` +
                   `<div class="text-secondary px-1" style="font-size:14px; text-align:justify;">${rev.text}</div>` +
                   "</div>"
                 // console.log(rev.profile_photo_url)
-              );
+              )
+              .join("");
 
             infowindow.setContent(
               parseData() +
