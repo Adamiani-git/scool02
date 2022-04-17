@@ -330,6 +330,22 @@ function addPlaces(
               localMail = localInfo[0].mail;
             };
 
+            const rankDiv = document.getElementById("rank");
+            const starFill = document.createElement("img");
+            starFill.src =
+              "http://maps.gstatic.com/consumer/images/icons/2x/ic_star_rate_empty_14.png";
+
+            function test(a: google.maps.places.PlaceReview) {
+              {
+                const rank = Math.floor(a.rating ? a.rating : 0);
+                for (let i = 0; i < 6; i++) {
+                  rankDiv?.appendChild(starFill);
+                  if (rank >= 0) {
+                    const left = 5 - +rank;
+                  }
+                }
+              }
+            }
             const reviewList = place.reviews
               ?.filter((r) => r.text != "")
               .map(
@@ -338,9 +354,9 @@ function addPlaces(
                   i +
                   "' class='border-bottom mb-2 pb-2'>" +
                   `<div class="fs-6 text-secondary fw-bold "><img class="me-2" style="width:32px; height:32px" src="${rev?.profile_photo_url}"/>${rev.author_name}</div>` +
-                  `<div class="text-secondary px-1" style="font-size:14px; text-align:justify;">${rev.text}</div>` +
+                  `<div><div id='rank'>${test(rev)}</div></div>` +
+                  `<div class="text-secondary p-1" style="font-size:14px; text-align:justify;">${rev.text}</div>` +
                   "</div>"
-                // console.log(rev.profile_photo_url)
               )
               .join("");
 
