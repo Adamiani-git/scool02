@@ -23,7 +23,7 @@ body {
 #map {
   /* flex-basis: 0;
   flex-grow: 4;*/
-  height: 500px; 
+  height: 80vh; 
 }
 
  #sidebar {
@@ -87,4 +87,12 @@ input::-webkit-inner-spin-button {
 }
 a {
   text-decoration: none;
+}
+
+@media screen and (max-width:991px) {
+  #map {
+    /* flex-basis: 0;
+    flex-grow: 4;*/
+    height: 500px; 
+  }
 }

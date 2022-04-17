@@ -8,10 +8,11 @@ function initMap(): void {
 
     const pyrmont = { lat: lat, lng: lon };
 
-    const searchBtn = document.getElementById("searchBtn") as HTMLButtonElement;
+    // const searchBtn = document.getElementById("searchBtn") as HTMLButtonElement;
+    const searchForm = document.getElementById("searchForm") as HTMLElement;
     const placelist = document.getElementById("places") as HTMLElement;
 
-    searchBtn.onclick = function (e) {
+    searchForm.onsubmit = function (e) {
       e.preventDefault();
 
       while (placelist.firstChild) {
@@ -30,9 +31,9 @@ function initMap(): void {
     const curLocation = new google.maps.Marker({
       map,
       title: "აქ ვარ",
-      label: "აქ ვარ",
+      label: "მე",
       position: pyrmont,
-      animation: google.maps.Animation.BOUNCE,
+      animation: google.maps.Animation.DROP,
     });
 
     let rdus = 1500;
@@ -56,9 +57,9 @@ function initMap(): void {
         map,
         // icon: image,
         title: "აქ ვარ",
-        label: "აქ ვარ",
+        label: "მე",
         position: pyrmont,
-        animation: google.maps.Animation.BOUNCE,
+        animation: google.maps.Animation.DROP,
       });
 
       // Create the places service.
@@ -127,7 +128,7 @@ function addPlaces(
 
       const infowindow = new google.maps.InfoWindow({
         content: contentString,
-        maxWidth: 300,
+        maxWidth: 350,
       });
 
       const service = new google.maps.places.PlacesService(map);
@@ -327,26 +328,26 @@ function addPlaces(
 
             infowindow.setContent(
               parseData() +
-                "<div class='infowindow-container'><div>" +
+                "<div class='infowindow-container'><div style='margin-top:-15px'>" +
                 imgCont +
-                "</div><div><h5  class='text-secondary'>" +
+                "</div><div class='mt-3'><i class='bi bi-mortarboard fs-5'><span  class='text-secondary fs-5'> " +
                 localName +
-                "</h5></div><hr/><h5 class='text-secondary'>" +
+                "</span></i></div><hr/><i class='bi bi-signpost-split fs-5'><span class='text-secondary fs-6'>  " +
                 localAddress +
-                "</h5><hr/> <a href='tel:" +
+                "</span></i><hr/> <a href='tel:" +
                 localPhone +
-                "'><i class='bi bi-telephone text-dark'><span class='text-secondary fs-6'> " +
+                "'><i class='bi bi-telephone text-dark fs-5'><span class='text-secondary fs-6'> " +
                 localPhone +
                 "</span></i></a>" +
-                "<div class='mt-3'><i class='bi bi-envelope-paper'><span  class='text-secondary fs-6'> <a href='mailto:" +
+                "<div class='mt-3'><i class='bi bi-envelope-paper fs-5'><span  class='text-secondary fs-6'> <a href='mailto:" +
                 localMail +
-                "'>" +
+                "'> " +
                 localMail +
-                "</a></span></i><div class='mt-3'><span  class='text-secondary'><i class='bi bi-link-45deg'><a href='" +
+                "</a></span></i><div class='mt-3'><i class='bi bi-link-45deg fs-5'><span  class='text-secondary fs-6'><a href='" +
                 place.url +
-                "' target='blank'>" +
-                place.url +
-                "</a></i></span></div></div></div>"
+                "' target='blank'> " +
+                place.url?.substring(0, 28) +
+                "</a></span></i></div><hr/></div></div>"
             );
           }
         });

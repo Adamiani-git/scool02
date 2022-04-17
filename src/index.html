@@ -29,22 +29,23 @@
         <div id="map" class="col-lg-8 mb-3 rounded-3"></div>
         <div id="sidebar" class="col-lg-4 rounded-3">
           <div id="searchBar" class="form container mb-3">
-            <div class="row">
-              <div id="test"></div>
-              <div class="col-6">
-                <input
-                  class="form-control"
-                  id="inpt"
-                  type="number"
-                  min="0"
-                  placeholder="მეტრი"
-                  required
-                />
+            <form id="searchForm">
+              <div class="row">
+                <div class="col-6">
+                  <input
+                    class="form-control"
+                    id="inpt"
+                    type="number"
+                    min="0"
+                    placeholder="მეტრი"
+                    required
+                  />
+                </div>
+                <div class="col-6">
+                  <button id="searchBtn" class="btn btn-success">ძებნა</button>
+                </div>
               </div>
-              <div class="col-6">
-                <button id="searchBtn" class="btn btn-success">ძებნა</button>
-              </div>
-            </div>
+            </form>
           </div>
           <div id="formKM"></div>
           <h2 class="text-secondary">სკოლები</h2>
