@@ -55,7 +55,26 @@ li {
   /* font-size: 1.25rem; */
   cursor: pointer
 }
-
+#rank{
+  display: flex;
+  padding: 5px;
+}
+#img1, #img2, #img3, #img4, #img5{
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 8px;
+  color: white;
+}
+.emptyStar{
+  background-image: url("http://maps.gstatic.com/consumer/images/icons/2x/ic_star_rate_empty_14.png");
+  background-size: contain;
+}
+.fillStar{
+  background-image: url("http://maps.gstatic.com/consumer/images/icons/2x/ic_star_rate_14.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+}
 li:nth-child(odd) {
   background-color: #fcfcfc;
 }

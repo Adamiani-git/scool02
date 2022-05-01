@@ -331,18 +331,17 @@ function addPlaces(
             };
 
             const rankDiv = document.getElementById("rank");
-            const starFill = document.createElement("img");
-            starFill.src =
-              "http://maps.gstatic.com/consumer/images/icons/2x/ic_star_rate_empty_14.png";
+            const aaa = document.getElementById("imgfirst");
 
-            function test(a: google.maps.places.PlaceReview) {
-              {
-                const rank = Math.floor(a.rating ? a.rating : 0);
-                for (let i = 0; i < 6; i++) {
-                  rankDiv?.appendChild(starFill);
-                  if (rank >= 0) {
-                    const left = 5 - +rank;
-                  }
+            console.log(aaa);
+
+            function rankCount(r) {
+              for (let i = 1; i <= r; i++) {
+                let img = document.getElementById(`"img${i}"`);
+                console.log(`img${i}`);
+
+                if (img) {
+                  img.classList.add("fillStar");
                 }
               }
             }
@@ -354,7 +353,7 @@ function addPlaces(
                   i +
                   "' class='border-bottom mb-2 pb-2'>" +
                   `<div class="fs-6 text-secondary fw-bold "><img class="me-2" style="width:32px; height:32px" src="${rev?.profile_photo_url}"/>${rev.author_name}</div>` +
-                  `<div><div id='rank'>${test(rev)}</div></div>` +
+                  `<div><div id='rank'><div class='fillStar' id="img1">${rev.rating}</div></div></div>` +
                   `<div class="text-secondary p-1" style="font-size:14px; text-align:justify;">${rev.text}</div>` +
                   "</div>"
               )
